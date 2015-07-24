@@ -12,3 +12,10 @@ Then, put the file you want to append with geonames and unhcr names in the input
 Then open the command line and change directory into this folder. Then run `make`
 
 The make file will append the names and create output in the `output` folder. Geojson and shapefiles appended with the names.
+
+To run again just
+
+~~~
+make clean
+make
+~~~
