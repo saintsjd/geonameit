@@ -87,11 +87,13 @@ tmp/import-unhcr: input/unhcr-utf.csv tmp/init
 	psql -c 'create index index_unhcr_buffered on unhcr using GIST (buffered);'
 	touch tmp/import-unhcr
 
-# output/village_final_popcounts_geonames_unhcr.json: output/village_final_popcounts_geonames.json tmp/import-afg-ppl bin/append-unhcr-af.py
-# 	python bin/append-unhcr-af.py
-
+# SINDH
 output/village_with_pop_dates_geonames_unhcr.json: output/village_with_pop_dates_geonames.json tmp/import-unhcr bin/append-unhcr.py
 	python bin/append-unhcr.py
+
+# FARAH
+# output/village_with_pop_dates_geonames_unhcr.json: output/village_with_pop_dates_geonames.json tmp/import-afg-ppl bin/append-unhcr-af.py
+# 	python bin/append-unhcr-af.py
 
 output/village_with_pop_dates_geonames_unhcr_primary_names.json: output/village_with_pop_dates_geonames_unhcr.json bin/append-primary-name.py
 	python bin/append-primary-name.py
