@@ -47,8 +47,6 @@ for feature in geojson['features']:
     else:
         feature['properties']['geonames'] = []
     export['features'].append(feature)
-    if i % 1000 == 0:
-        print i
 
-with open('output/village_final_popcounts_geonames.json','wb') as f:
+with open('output/village_with_pop_dates_geonames.json','wb') as f:
     f.write(json.dumps(export))

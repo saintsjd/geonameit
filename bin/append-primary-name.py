@@ -2,7 +2,7 @@
 import json
 
 geojson = []
-with open('output/village_final_popcounts_geonames_unhcr.json') as f:
+with open('output/village_with_pop_dates_geonames_unhcr.json') as f:
     geojson = json.loads(f.read())
 
 export = {
@@ -23,8 +23,6 @@ for feature in geojson['features']:
         feature['properties']['primary_name'] = feature['properties']['unhcr'][0]
 
     export['features'].append(feature)
-    if i % 1000 == 0:
-        print i
 
-with open('output/village_final_popcounts_geonames_unhcr_primary_names.json','wb') as f:
+with open('output/village_with_pop_dates_geonames_unhcr_primary_names.json','wb') as f:
     f.write(json.dumps(export))
