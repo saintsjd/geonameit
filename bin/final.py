@@ -24,7 +24,7 @@ with psycopg2.connect(DSN) as conn:
 
 
 geojson = []
-with open('output/village_final_popcounts_geonames_unhcr_primary_names.json') as f:
+with open('output/village_with_pop_dates_geonames_unhcr_primary_names.json') as f:
     geojson = json.loads(f.read())
 
 export = {
@@ -63,9 +63,6 @@ for feature in geojson['features']:
         f['properties']['geoname'] = feature['properties']['geonames'][0]
 
     export['features'].append(f)
-
-    if i % 1000 == 0:
-        print i
 
 with open('output/final.json','wb') as f:
     f.write(json.dumps(export))
