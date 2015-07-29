@@ -46,7 +46,7 @@ tmp/index_geonames: tmp/import_geonames
 	psql -c 'create index index_geonames_buffered on geonames using GIST (buffered);'
 	touch tmp/index_geonames
 
-tmp/import-polygons: tmp/init input/AF_village_final_popcounts.json bin/import-polygons.py
+tmp/import-polygons: tmp/init input/village_with_pop_dates.json bin/import-polygons.py
 	psql -c 'drop table if exists polygons;'
 	psql -c 'create table polygons (geom geometry, uuid varchar, buffered geometry, area numeric );'
 	python bin/import-polygons.py
@@ -80,13 +80,15 @@ output/AF_village_final_popcounts_geonames_unhcr.json: output/AF_village_final_p
 output/AF_village_final_popcounts_geonames_unhcr_primary_names.json: output/AF_village_final_popcounts_geonames_unhcr.json bin/append-primary-name.py
 	python bin/append-primary-name.py
 
-output/final.json: output/AF_village_final_popcounts_geonames_unhcr_primary_names.json
+output/final.json: output/AF_village_final_popcounts_geonames_unhcr_primary_names.json bin/final.py
 	python bin/final.py
 
 output/final-32642.shp: output/final.json
+	rm ./output/final-32642.*
 	ogr2ogr -f "ESRI Shapefile" ./output/final-32642.shp -t_srs "EPSG:32642" output/final.json
 
 output/final-32642.json: output/final.json
+	rm ./output/final-32642.*
 	ogr2ogr -f "GeoJSON" ./output/final-32642.json -t_srs "EPSG:32642" output/final.json
 
 

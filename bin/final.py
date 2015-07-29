@@ -38,7 +38,11 @@ for feature in geojson['features']:
     f = {}
     f['geometry'] = feature['geometry']
     f['properties'] = {}
-    f['properties']['areasqutm'] = int(math.ceil(areas[ feature['properties']['UUID'] ]))
+    if feature['properties']['UUID'] in areas:
+        f['properties']['areasqutm'] = int(math.ceil(areas[ feature['properties']['UUID'] ]))
+    else:
+        print "no area", feature['properties']['UUID']
+        f['properties']['areasqutm'] = None
     f['properties']['uuid'] = feature['properties']['UUID']
     f['properties']['mindate'] = feature['properties']['mindate']
     f['properties']['maxdate'] = feature['properties']['maxdate']
