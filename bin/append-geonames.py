@@ -26,10 +26,10 @@ with psycopg2.connect(DSN) as conn:
             population = row[1]
             if uuid not in geonames:
                 geonames[uuid] = []
-            geonames[uuid].append(name)
+            geonames[uuid].append(unicode(name,'utf-8'))
 
 geojson = []
-with open('input/AF_village_final_popcounts.json') as f:
+with open('input/village_with_pop_dates.json') as f:
     geojson = json.loads(f.read())
 
 export = {
@@ -41,7 +41,7 @@ i = 0
 for feature in geojson['features']:
     i += 1
     if feature['properties']['UUID'] in geonames:
-        print feature['properties']['UUID'], geonames[feature['properties']['UUID']]
+        #print feature['properties']['UUID'], geonames[feature['properties']['UUID']]
         #feature['properties']['geonames'] = sorted(geonames[feature['properties']['UUID']], key=lambda tup: tup[1])
         feature['properties']['geonames'] = geonames[feature['properties']['UUID']]
     else:
@@ -50,5 +50,5 @@ for feature in geojson['features']:
     if i % 1000 == 0:
         print i
 
-with open('output/AF_village_final_popcounts_geonames.json','wb') as f:
+with open('output/village_final_popcounts_geonames.json','wb') as f:
     f.write(json.dumps(export))

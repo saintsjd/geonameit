@@ -24,10 +24,10 @@ with psycopg2.connect(DSN) as conn:
             name = row[0]
             if uuid not in unhcr:
                 unhcr[uuid] = []
-            unhcr[uuid].append(name)
+            unhcr[uuid].append(unicode(name,'utf-8'))
 
 geojson = []
-with open('output/village_with_pop_dates_geonames.json') as f:
+with open('output/village_final_popcounts_geonames.json') as f:
     geojson = json.loads(f.read())
 
 export = {
@@ -39,7 +39,7 @@ i = 0
 for feature in geojson['features']:
     i += 1
     if feature['properties']['UUID'] in unhcr:
-        print feature['properties']['UUID'], unhcr[feature['properties']['UUID']]
+        # print feature['properties']['UUID'], unhcr[feature['properties']['UUID']]
         feature['properties']['unhcr'] = unhcr[feature['properties']['UUID']]
     else:
         feature['properties']['unhcr'] = []

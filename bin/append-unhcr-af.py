@@ -29,7 +29,7 @@ with psycopg2.connect(DSN) as conn:
             unhcr[uuid].append(name)
 
 geojson = []
-with open('output/AF_village_final_popcounts_geonames.json') as f:
+with open('output/village_final_popcounts_geonames.json') as f:
     geojson = json.loads(f.read())
 
 export = {
@@ -50,5 +50,5 @@ for feature in geojson['features']:
     if i % 1000 == 0:
         print i
 
-with open('output/AF_village_final_popcounts_geonames_unhcr.json','wb') as f:
+with open('output/village_final_popcounts_geonames_unhcr.json','wb') as f:
     f.write(json.dumps(export))

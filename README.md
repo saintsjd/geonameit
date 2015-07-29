@@ -7,7 +7,7 @@ This project uses `make`. For more information about why make is a good way to o
 
 You need to have a postgis server for this to work. Right now it only runs on a local postgres install. We could easily change it to connect to an external postgres database.
 
-Then, put the file you want to append with geonames and unhcr names in the input folder. Right now it must be input/AF_village_final_popcounts.json or you can edit the make file to access a different file.
+Then, put the file you want to append with geonames and unhcr names in the input folder. Right now it must be input/village_with_pop_dates.json or you can edit the make file to access a different file.
 
 Then open the command line and change directory into this folder. Then run `make`
 

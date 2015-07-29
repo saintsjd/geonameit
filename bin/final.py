@@ -12,7 +12,7 @@ with psycopg2.connect(DSN) as conn:
         SQL = '''
             select
             uuid,
-            area
+            st_area(geom::geography) as area
             from polygons p
         '''
         curs.execute(SQL)
@@ -24,7 +24,7 @@ with psycopg2.connect(DSN) as conn:
 
 
 geojson = []
-with open('output/AF_village_final_popcounts_geonames_unhcr_primary_names.json') as f:
+with open('output/village_final_popcounts_geonames_unhcr_primary_names.json') as f:
     geojson = json.loads(f.read())
 
 export = {
