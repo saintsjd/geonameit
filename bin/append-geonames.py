@@ -15,6 +15,7 @@ with psycopg2.connect(DSN) as conn:
             p.uuid, st_area(p.geom) as area
             from polygons p
             inner join geonames g on ST_Intersects(g.buffered,p.geom)
+            where g.feature_code in ('PPL','PPLC','PPLA','PPLA2')
             order by g.name, p.area desc, p.uuid;
         '''
         curs.execute(SQL)

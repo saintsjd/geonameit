@@ -100,11 +100,11 @@ output/final.json: output/village_with_pop_dates_geonames_unhcr_primary_names.js
 	python bin/final.py
 
 output/final-32642.shp: output/final.json
-	rm -f ./output/final-32642.*
-	ogr2ogr -f "ESRI Shapefile" ./output/final-32642.shp -t_srs "EPSG:32642" output/final.json
+	rm -f ./output/final-32642.shp
+	ogr2ogr -f "ESRI Shapefile" -lco ENCODING=UTF-8 ./output/final-32642.shp -t_srs "EPSG:32642" output/final.json
 
 output/final-32642.json: output/final.json
-	rm -f ./output/final-32642.*
+	rm -f ./output/final-32642.json
 	ogr2ogr -f "GeoJSON" ./output/final-32642.json -t_srs "EPSG:32642" output/final.json
 
 
