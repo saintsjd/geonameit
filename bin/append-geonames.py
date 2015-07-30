@@ -30,7 +30,7 @@ with psycopg2.connect(DSN) as conn:
             geonames[uuid].append(unicode(name,'utf-8'))
 
 geojson = []
-with open('input/village_with_pop_dates.json') as f:
+with open('input/village_final.json') as f:
     geojson = json.loads(f.read())
 
 export = {
@@ -49,5 +49,5 @@ for feature in geojson['features']:
         feature['properties']['geonames'] = []
     export['features'].append(feature)
 
-with open('output/village_with_pop_dates_geonames.json','wb') as f:
+with open('output/village_final_geonames.json','wb') as f:
     f.write(json.dumps(export))

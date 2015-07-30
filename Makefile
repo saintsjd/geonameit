@@ -1,6 +1,6 @@
 .PHONY: clean
 
-all: output/final-32642.shp output/final-32642.json
+all: output/final-32642.shp
 
 clean:
 	rm -rf ./output
@@ -48,7 +48,7 @@ tmp/index_geonames: tmp/import_geonames
 	psql -c 'create index index_geonames_buffered on geonames using GIST (buffered);'
 	touch tmp/index_geonames
 
-tmp/import-polygons: tmp/init input/village_with_pop_dates.json bin/import-polygons.py
+tmp/import-polygons: tmp/init input/village_final.json bin/import-polygons.py
 	psql -c 'drop table if exists polygons;'
 	psql -c 'create table polygons (geom geometry, uuid varchar, buffered geometry, area numeric );'
 	python bin/import-polygons.py
@@ -57,7 +57,7 @@ tmp/import-polygons: tmp/init input/village_with_pop_dates.json bin/import-polyg
 	psql -c 'create index index_polygons_geom on polygons using GIST (geom);'
 	touch tmp/import-polygons
 
-output/village_with_pop_dates_geonames.json: input/village_with_pop_dates.json tmp/import-polygons tmp/index_geonames bin/append-geonames.py
+output/village_final_geonames.json: input/village_final.json tmp/import-polygons tmp/index_geonames bin/append-geonames.py
 	python bin/append-geonames.py
 
 tmp/afg_ppl_settlement_pnt_shp.zip: tmp/init
@@ -88,17 +88,17 @@ tmp/import-unhcr: input/unhcr-utf.csv tmp/init
 	touch tmp/import-unhcr
 
 # SINDH
-output/village_with_pop_dates_geonames_unhcr.json: output/village_with_pop_dates_geonames.json tmp/import-unhcr bin/append-unhcr.py
+output/village_final_geonames_unhcr.json: output/village_final_geonames.json tmp/import-unhcr bin/append-unhcr.py
 	python bin/append-unhcr.py
 
 # FARAH
-# output/village_with_pop_dates_geonames_unhcr.json: output/village_with_pop_dates_geonames.json tmp/import-afg-ppl bin/append-unhcr-af.py
+# output/village_final_geonames_unhcr.json: output/village_final_geonames.json tmp/import-afg-ppl bin/append-unhcr-af.py
 # 	python bin/append-unhcr-af.py
 
-output/village_with_pop_dates_geonames_unhcr_primary_names.json: output/village_with_pop_dates_geonames_unhcr.json bin/append-primary-name.py
+output/village_final_geonames_unhcr_primary_names.json: output/village_final_geonames_unhcr.json bin/append-primary-name.py
 	python bin/append-primary-name.py
 
-output/final.json: output/village_with_pop_dates_geonames_unhcr_primary_names.json bin/final.py
+output/final.json: output/village_final_geonames_unhcr_primary_names.json bin/final.py
 	python bin/final.py
 
 output/final-32642.shp: output/final.json
@@ -123,7 +123,7 @@ output/final-32642.json: output/final.json
 # 	psql -c 'create index index_unhcr_buffered on unhcr using GIST (buffered);'
 # 	touch tmp/import-unhcr
 #
-# output/village_with_pop_dates_unhcr.json: output/village_with_pop_dates_geonames.json tmp/import-unhcr bin/append-unhcr.py tmp/import-afg-ppl
+# output/village_final_unhcr.json: output/village_final_geonames.json tmp/import-unhcr bin/append-unhcr.py tmp/import-afg-ppl
 # 	python bin/append-unhcr.py
 # tmp/PK.geojson: tmp/PK.txt tsv2geojson.js
 # 	node tsv2geojson.js > tmp/PK.geojson

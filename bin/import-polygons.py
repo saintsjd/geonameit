@@ -3,7 +3,7 @@ import psycopg2
 
 DSN = "dbname=jonsaints"
 
-with open('input/village_with_pop_dates.json') as f:
+with open('input/village_final.json') as f:
     geojson = json.loads(f.read())
 
     SQL = ""

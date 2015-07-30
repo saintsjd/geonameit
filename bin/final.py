@@ -24,7 +24,7 @@ with psycopg2.connect(DSN) as conn:
 
 
 geojson = []
-with open('output/village_with_pop_dates_geonames_unhcr_primary_names.json') as f:
+with open('output/village_final_geonames_unhcr_primary_names.json') as f:
     geojson = json.loads(f.read())
 
 export = {
@@ -48,7 +48,7 @@ for feature in geojson['features']:
     f['properties']['maxdate'] = feature['properties']['maxdate']
     f['properties']['pr_name'] = feature['properties']['primary_name']
     #f['properties']['dgpc_ls'] = int(math.ceil( float(feature['properties']['PopCount']) ))
-    f['properties']['dgpc_ls'] = 0
+    f['properties']['dgpc_ls'] = feature['properties']['PopCount']
 
     f['properties']['unhrname'] = ""
     if len(feature['properties']['unhcr']) > 1 :
