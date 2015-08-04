@@ -1,6 +1,6 @@
 .PHONY: clean
 
-all: output/final-32642.shp
+all: output/village_final.shp output/PopPoints_Final.shp
 
 clean:
 	rm -rf ./output
@@ -101,9 +101,14 @@ output/village_final_geonames_unhcr_primary_names.json: output/village_final_geo
 output/final.json: output/village_final_geonames_unhcr_primary_names.json bin/final.py
 	python bin/final.py
 
-output/final-32642.shp: output/final.json
-	rm -f ./output/final-32642.shp
-	ogr2ogr -f "ESRI Shapefile" -lco ENCODING=UTF-8 ./output/final-32642.shp -t_srs "EPSG:32642" output/final.json
+output/village_final.shp: output/final.json
+	rm -f ./output/village_final.shp
+	ogr2ogr -f "ESRI Shapefile" -lco ENCODING=UTF-8 ./output/village_final.shp -t_srs "EPSG:32642" output/final.json
+
+output/PopPoints_Final.shp: input/PopPoints_Final.json
+	rm -f ./output/PopPoints_Final.shp
+	ogr2ogr -f "ESRI Shapefile" -lco ENCODING=UTF-8 ./output/PopPoints_Final.shp -t_srs "EPSG:32642" input/PopPoints_Final.json
+
 
 output/final-32642.json: output/final.json
 	rm -f ./output/final-32642.json
